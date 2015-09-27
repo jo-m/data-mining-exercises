@@ -12,6 +12,11 @@ sample-output.txt: sample-mapper.py sample-reducer.py
 		| ./1.1-mapper.py | sort | ./sample-reducer.py \
 		| tee -a 1.1-output.txt
 
+1.2-output.txt: 1.2-mapper.py 1.2-reducer.py 1.1-output.txt
+	rm -f 1.2-output.txt
+	./1.2-mapper.py < 1.1-output.txt | sort -r | ./1.2-reducer.py \
+		| tee -a 1.2-output.txt
+
 ans-1.1: 1.1-output.txt
 	@egrep '^my\t' 1.1-output.txt
 	@egrep '^hello\t' 1.1-output.txt || true
