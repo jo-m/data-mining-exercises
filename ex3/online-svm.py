@@ -38,11 +38,12 @@ def permute(X, y):
 def evaluate():
 	Xtrain, Ytrain, Xtest, Ytest = load_data()
 	Xtrain, Ytrain = permute(Xtrain, Ytrain)
-	clf = OcpSvm(0.01)
-	clf.fit(Xtrain, Ytrain)
-	Ypred = clf.predict(Xtest)
-	score = np.sum((Ypred == Ytest)) / float(Ypred.size)
-	print 'SVM Score: %f' % score
+	for la in [0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2]:
+		clf = OcpSvm(la)
+		clf.fit(Xtrain, Ytrain)
+		Ypred = clf.predict(Xtest)
+		score = np.sum((Ypred == Ytest)) / float(Ypred.size)
+		print 'SVM lambda = %f; Score: %f' % (la, score)
 
 if __name__ == '__main__':
 	evaluate()
